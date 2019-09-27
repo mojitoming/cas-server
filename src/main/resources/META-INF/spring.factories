@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.dhcc.sso.config.CustomAuthenticationConfigurer,\
+  com.dhcc.sso.config.CustomAuthWebflowConfigurer,\
+  com.dhcc.sso.config.CustomControllerConfigurer
