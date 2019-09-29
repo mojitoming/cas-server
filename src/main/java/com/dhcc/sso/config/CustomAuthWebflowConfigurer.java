@@ -4,6 +4,7 @@ import org.apereo.cas.configuration.CasConfigurationProperties;
 import org.apereo.cas.web.flow.CasWebflowConfigurer;
 import org.apereo.cas.web.flow.CasWebflowExecutionPlan;
 import org.apereo.cas.web.flow.CasWebflowExecutionPlanConfigurer;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +21,8 @@ public class CustomAuthWebflowConfigurer implements CasWebflowExecutionPlanConfi
     private CasConfigurationProperties casProperties;
 
     @Resource
-    private FlowDefinitionRegistry loginFlowDefinationRegistry;
+    @Qualifier("loginFlowRegistry")
+    private FlowDefinitionRegistry loginFlowDefinitionRegistry;
 
     @Resource
     private ApplicationContext applicationContext;
@@ -31,7 +33,7 @@ public class CustomAuthWebflowConfigurer implements CasWebflowExecutionPlanConfi
     @Bean
     public CasWebflowConfigurer customWebflowConfigurer() {
         // 实例化自定义的表单配置类
-        final CustomWebflowConfigurer cwc = new CustomWebflowConfigurer(flowBuilderServices, loginFlowDefinationRegistry, applicationContext, casProperties);
+        final CustomWebflowConfigurer cwc = new CustomWebflowConfigurer(flowBuilderServices, loginFlowDefinitionRegistry, applicationContext, casProperties);
 
         // 初始化
         cwc.initialize();

@@ -38,7 +38,7 @@ public class CaptchaController {
      */
     @GetMapping(value = "/kaptcha", produces = "image/png")
     public void kaptcha(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        byte[] captchaChallengeAsJpeg = null;
+        byte[] captchaChallengeAsJpeg;
         DefaultKaptcha captchaProducer = KaptchaCodeUtils.getDefaultKaptcha();
         OutputStream out = null;
         ByteArrayOutputStream jpegOutputStream = new ByteArrayOutputStream();

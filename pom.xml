@@ -55,6 +55,10 @@
                             <artifactId>cas-server-webapp${app.server}</artifactId>
                         </overlay>
                     </overlays>
+                    <dependentWarExcludes>
+                        <!-- 让war包下的json不初始化 -->
+                        **/services/*.json
+                    </dependentWarExcludes>
                 </configuration>
             </plugin>
             <plugin>
@@ -147,6 +151,12 @@
                     <artifactId>cas-server-core-configuration-api</artifactId>
                     <version>${cas.version}</version>
                 </dependency>
+                <dependency>
+                    <groupId>org.apereo.cas</groupId>
+                    <artifactId>cas-server-support-json-service-registry</artifactId>
+                    <version>${cas.version}</version>
+                </dependency>
+
                 <!-- alibaba 的 druid 数据库连接池 -->
                 <!-- https://mvnrepository.com/artifact/com.alibaba/druid-spring-boot-starter -->
                 <dependency>

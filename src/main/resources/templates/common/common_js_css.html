@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <th:block th:fragment="common_js_css">
+        <link rel="stylesheet" th:href="@{/plugin/layui-v2.5.4/css/layui.css}"/>
+        <script th:src="@{/plugin/layui-v2.5.4/layui.js}"></script>
+        <script th:src="@{/plugin/jquery/jquery-3.4.1.js}"></script>
+        <script th:src="@{/plugin/vue/vue.js}"></script>
+        <!-- <script th:src="${#request.getContextPath()}+'/plugin/jquery/jquery-3.4.1.js'"></script> another way -->
+
+        <script>
+            const $WEB_ROOT_PATH = getContextPath();
+
+            /**
+             * 获得应用的根路径
+             */
+            function getContextPath(){
+                let strFullPath=window.document.location.href;
+                let strPath=window.document.location.pathname;
+                let pos=strFullPath.indexOf(strPath);
+                let prePath=strFullPath.substring(0,pos);
+                let postPath=strPath.substring(0,strPath.substr(1).indexOf('/')+1);
+
+                return prePath + postPath;
+            }
+        </script>
+    </th:block>
+</body>
+</html>

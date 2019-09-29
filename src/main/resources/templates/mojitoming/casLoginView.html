@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <title>CAS Server</title>
+    <!-- 公共文件引入 -->
+    <div th:replace="/common/common_js_css :: common_js_css"></div>
+    <!-- 定制文件引入 -->
+    <script th:src="@{${#themes.code('mojitoming.javascript.file')}}"></script>
+</head>
+<body>
+    <form action="" class="layui-form">
+        <div class="layui-form-item">
+            <label>用户名</label>
+            <div class="layui-input-block">
+                <input type="text" name="username" required lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label>密码</label>
+            <div class="layui-input-block">
+                <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <img id="captcha-img" th:src="@{/kaptcha}" alt="验证码" onclick="changeCode()">
+            <div class="layui-input-block">
+                <input type="text" name="captcha" required lay-verify="required" placeholder="请输入验证码" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="loginForm">登录</button>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
