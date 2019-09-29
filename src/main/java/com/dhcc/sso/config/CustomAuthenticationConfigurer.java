@@ -1,6 +1,6 @@
 package com.dhcc.sso.config;
 
-import com.dhcc.sso.authentication.CustomUsernamePasswordAuthentication;
+import com.dhcc.sso.authentication.CustomHandlerAuthentication;
 import org.apereo.cas.authentication.AuthenticationEventExecutionPlan;
 import org.apereo.cas.authentication.AuthenticationEventExecutionPlanConfigurer;
 import org.apereo.cas.authentication.AuthenticationHandler;
@@ -30,9 +30,9 @@ public class CustomAuthenticationConfigurer implements AuthenticationEventExecut
     public AuthenticationHandler myAuthenticationHandler() {
         // 参数: name, servicesManager, principalFactory, order
         // 定义为优先使用它进行认证
-        return new CustomUsernamePasswordAuthentication(CustomUsernamePasswordAuthentication.class.getName(), servicesManager, new DefaultPrincipalFactory(), 1);
+        // return new CustomUsernamePasswordAuthentication(CustomUsernamePasswordAuthentication.class.getName(), servicesManager, new DefaultPrincipalFactory(), 1);
 
-        // return new CustomHandlerAuthentication(CustomHandlerAuthentication.class.getName(), servicesManager, new DefaultPrincipalFactory(), 1);
+        return new CustomHandlerAuthentication(CustomHandlerAuthentication.class.getName(), servicesManager, new DefaultPrincipalFactory(), 1);
     }
 
     @Override

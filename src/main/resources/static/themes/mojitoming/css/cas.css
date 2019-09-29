@@ -1,0 +1,31 @@
+#login-region {
+    width: 30%;
+    border: 2px solid deepskyblue;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10% !important;
+}
+
+#login-region legend {
+    font-size: 28px;
+    color: deepskyblue;
+    font-weight: bold;
+}
+
+#login-region form {
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+#captcha-img {
+    float: left;
+    width: 100px;
+}
+
+#login-btn {
+    width: 96px;
+}
+
+#captcha-img:hover {
+    cursor: pointer;
+}

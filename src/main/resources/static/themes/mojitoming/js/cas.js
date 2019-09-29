@@ -5,7 +5,7 @@ layui.use(['form'], function () {
 
 // 切换验证码
 function changeCode() {
-    let node = document.getElementById("captcha_img");
+    let node = document.getElementById("captcha-img");
     //修改验证码
     if (node) {
         node.src = node.src + '?id=' + uuid();
@@ -24,4 +24,18 @@ function uuid() {
         //toString 表示编程16进制的数据
         return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
     });
+}
+
+function cambiar_login() {
+    document.querySelector('.cont_forms').className = "cont_forms cont_forms_active_login";
+    document.querySelector('.cont_form_login').style.display = "block";
+    document.querySelector('.cont_form_sign_up').style.opacity = "0";
+
+    setTimeout(function () {
+        document.querySelector('.cont_form_login').style.opacity = "1";
+    }, 400);
+
+    setTimeout(function () {
+        document.querySelector('.cont_form_sign_up').style.display = "none";
+    }, 200);
 }
