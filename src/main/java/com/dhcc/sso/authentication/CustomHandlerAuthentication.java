@@ -39,6 +39,14 @@ public class CustomHandlerAuthentication extends AbstractPreAndPostProcessingAut
         return credential instanceof CustomCredential;
     }
 
+    /**
+     *
+     * @param credential
+     * 用户认证处理结果     做认证
+     * @return
+     * @throws GeneralSecurityException
+     * @throws PreventedException
+     */
     @Override
     protected AuthenticationHandlerExecutionResult doAuthentication(Credential credential) throws GeneralSecurityException, PreventedException {
 

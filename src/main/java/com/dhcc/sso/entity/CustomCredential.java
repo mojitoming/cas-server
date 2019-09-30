@@ -6,6 +6,11 @@ import org.slf4j.LoggerFactory;
 
 import javax.validation.constraints.Size;
 
+/**
+ * 自定义凭据
+ * 新增captcha验证码字段
+ */
+
 public class CustomCredential extends UsernamePasswordCredential {
     private static final Logger logger = LoggerFactory.getLogger(CustomCredential.class);
     private static final Long serialVersionUID = -4166149641561667276L;

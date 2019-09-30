@@ -45,4 +45,5 @@ public class CustomWebflowConfigurer extends AbstractCasWebflowConfigurer {
         // 字段名、转换器、是否必须
         cfg.addBinding(new BinderConfiguration.Binding("captcha", null, true));
     }
+
 }

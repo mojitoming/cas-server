@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 
 /**
  * @author anumbrella
+ * 自定义身份验证配置
  */
 @Configuration
 @EnableConfigurationProperties(CasConfigurationProperties.class)
