@@ -20,22 +20,22 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">用户名</label>
                         <div class="layui-input-block">
-                            <input th:field="*{username}" type="text" id="username" name="username" required lay-verify="required" placeholder="请输入用户名"
-                                   autocomplete="off" class="layui-input">
+                            <input th:field="*{username}" type="text" id="username" name="username" lay-verify="username" placeholder="请输入用户名"
+                                   autocomplete="off" class="layui-input" lay-verType="tips">
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">密码</label>
                         <div class="layui-input-block">
-                            <input th:field="*{password}" type="password" id="password" name="password" required lay-verify="required" placeholder="请输入密码"
-                                   autocomplete="off" class="layui-input">
+                            <input th:field="*{password}" type="password" id="password" name="password" lay-verify="password" placeholder="请输入密码"
+                                   autocomplete="off" class="layui-input" lay-verType="tips">
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <img id="captcha-img" th:src="@{/kaptcha}" alt="验证码" onclick="changeCode()">
                         <div class="layui-input-block">
-                            <input th:field="*{captcha}" type="text" id="captcha" name="captcha" required lay-verify="required" placeholder="请输入验证码"
-                                   autocomplete="off" class="layui-input">
+                            <input th:field="*{captcha}" type="text" id="captcha" name="captcha" lay-verify="captcha" placeholder="请输入验证码"
+                                   autocomplete="off" class="layui-input" lay-verType="tips">
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -45,8 +45,17 @@
                                 <input type="hidden" name="_eventId" value="submit"/>
                                 <input type="hidden" name="geolocation"/>
                                 <input id="login-btn" class="btn btn-submit btn-block layui-btn layui-btn-normal" name="submit" accesskey="l"
-                                       th:value="#{screen.welcome.button.login}" tabindex="6" type="submit"/>
+                                       th:value="#{screen.welcome.button.login}" tabindex="6" type="submit" lay-submit=""/>
                             </section>
+                        </div>
+                    </div>
+
+                    <!-- 错误信息 -->
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <div th:if="${#fields.hasErrors('*')}">
+                                <span th:each="err : ${#fields.errors('*')}" th:utext="${err}"/>
+                            </div>
                         </div>
                     </div>
                 </form>

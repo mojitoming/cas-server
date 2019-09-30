@@ -2,6 +2,7 @@ package com.dhcc.sso.authentication;
 
 import com.dhcc.sso.entity.CustomCredential;
 import com.dhcc.sso.entity.User;
+import com.dhcc.sso.exception.CheckCaptchaErrorException;
 import org.apereo.cas.authentication.AuthenticationHandlerExecutionResult;
 import org.apereo.cas.authentication.Credential;
 import org.apereo.cas.authentication.MessageDescriptor;
@@ -19,7 +20,7 @@ import javax.security.auth.login.AccountException;
 import javax.security.auth.login.FailedLoginException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -57,7 +58,7 @@ public class CustomHandlerAuthentication extends AbstractPreAndPostProcessingAut
         String captchaRight = attributes.getRequest().getSession().getAttribute("captcha_code").toString();
 
         if (!captcha.equalsIgnoreCase(captchaRight)) {
-            throw new AccountException("Sorry, captcha not correct!");
+            throw new CheckCaptchaErrorException();
         }
 
         String sql = "SELECT USERNAME, PASSWORD, EXPIRED, DISABLED FROM T_USER WHERE USERNAME = ?";
@@ -71,9 +72,13 @@ public class CustomHandlerAuthentication extends AbstractPreAndPostProcessingAut
         if (!info.getPassword().equals(password)) {
             throw new FailedLoginException("Sorry, password not correct!");
         } else {
+            // 可自定义返回给客户端的多个属性信息
+            HashMap<String, Object> returnInfo = new HashMap<>();
+            returnInfo.put("expired", info.getDisabled());
+
             final List<MessageDescriptor> list = new ArrayList<>();
 
-            return createHandlerResult(customCredential, this.principalFactory.createPrincipal(username, Collections.emptyMap()), list);
+            return createHandlerResult(customCredential, this.principalFactory.createPrincipal(username, returnInfo), list);
         }
     }
 }

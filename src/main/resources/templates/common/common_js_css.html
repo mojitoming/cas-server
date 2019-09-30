@@ -17,15 +17,19 @@
             /**
              * 获得应用的根路径
              */
-            function getContextPath(){
-                let strFullPath=window.document.location.href;
-                let strPath=window.document.location.pathname;
-                let pos=strFullPath.indexOf(strPath);
-                let prePath=strFullPath.substring(0,pos);
-                let postPath=strPath.substring(0,strPath.substr(1).indexOf('/')+1);
+            function getContextPath() {
+                let strFullPath = window.document.location.href;
+                let strPath = window.document.location.pathname;
+                let pos = strFullPath.indexOf(strPath);
+                let prePath = strFullPath.substring(0, pos);
+                let postPath = strPath.substring(0, strPath.substr(1).indexOf('/') + 1);
 
                 return prePath + postPath;
             }
+
+            let isEmpty = function (value) {
+                return value === null || value === undefined || value === '';
+            };
         </script>
     </th:block>
 </body>
