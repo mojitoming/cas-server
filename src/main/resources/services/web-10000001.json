@@ -9,5 +9,8 @@
     "enabled": true,
     "ssoEnabled": true
   },
+  "attributeReleasePolicy": {
+    "@class": "org.apereo.cas.services.ReturnAllAttributeReleasePolicy"
+  },
   "theme": "mojitoming"
 }
