@@ -12,5 +12,6 @@
   "attributeReleasePolicy": {
     "@class": "org.apereo.cas.services.ReturnAllAttributeReleasePolicy"
   },
-  "theme": "mojitoming"
+  "theme": "mojitoming",
+  "logoutType" : "BACK_CHANNEL"
 }
