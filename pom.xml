@@ -164,6 +164,12 @@
                     <artifactId>druid-spring-boot-starter</artifactId>
                     <version>${druid.version}</version>
                 </dependency>
+                <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+                <dependency>
+                    <groupId>com.alibaba</groupId>
+                    <artifactId>fastjson</artifactId>
+                    <version>1.2.62</version>
+                </dependency>
                 <dependency>
                     <groupId>org.apereo.cas</groupId>
                     <artifactId>cas-server-core-webflow</artifactId>
