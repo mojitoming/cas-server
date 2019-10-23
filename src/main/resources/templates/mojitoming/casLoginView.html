@@ -11,56 +11,52 @@
     <script th:src="@{${#themes.code('mojitoming.javascript.file')}}"></script>
 </head>
 <body>
-    <div class="layui-container-fluid">
-        <fieldset id="login-region" class="layui-elem-field layui-field-title" style="margin-top: 50px;">
-            <legend>Login</legend>
-            <div class="layui-field-box">
-                <!--/*@thymesVar id="credential" type=""*/-->
-                <form class="layui-form layui-form-pane" method="post" th:object="${credential}">
-                    <!-- 错误信息 -->
-                    <div th:if="${#fields.hasErrors('*')}">
-                        <div id="error-info" class="layui-form-item">
-                            <span th:each="err : ${#fields.errors('*')}" th:utext="${err}"/>
-                        </div>
+    <div id="particles-js">
+        <form method="post" th:object="${credential}">
+            <div class="login">
+                <div class="login-top">
+                    登录（LOGIN）
+                </div>
+                <!-- 错误信息 -->
+                <div th:if="${#fields.hasErrors('*')}">
+                    <div id="error-info" class="layui-form-item">
+                        <span th:each="err : ${#fields.errors('*')}" th:utext="${err}"/>
                     </div>
-
-                    <div class="layui-form-item">
-                        <label class="layui-form-label"><i class="layui-icon layui-icon-username"></i></label>
-                        <div class="layui-input-block">
-                            <input th:field="*{username}" type="text" id="username" name="username" lay-verify="username" placeholder="用户名"
-                                   autocomplete="off" class="layui-input" lay-verType="tips">
-                        </div>
+                </div>
+                <div class="login-center clearfix">
+                    <div class="login-center-img"><img th:src="@{/themes/mojitoming/images/icons/name.png}"></div>
+                    <div class="login-center-input">
+                        <input type="text" name="" value="" placeholder="请输入用户名" onfocus="this.placeholder=&#39;&#39;"
+                               onblur="this.placeholder=&#39;请输入用户名&#39;" th:field="*{username}" id="username">
+                        <div class="login-center-input-text">用户名</div>
                     </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label"><i class="layui-icon layui-icon-password"></i></label>
-                        <div class="layui-input-block">
-                            <input th:field="*{password}" type="password" id="password" name="password" lay-verify="password" placeholder="密码"
-                                   autocomplete="off" class="layui-input" lay-verType="tips">
-                        </div>
+                </div>
+                <div class="login-center clearfix">
+                    <div class="login-center-img"><img th:src="@{/themes/mojitoming/images/icons/password.png}"></div>
+                    <div class="login-center-input">
+                        <input type="password" name="" value="" placeholder="请输入密码" onfocus="this.placeholder=&#39;&#39;"
+                               onblur="this.placeholder=&#39;请输入密码&#39;" th:field="*{password}" id="password">
+                        <div class="login-center-input-text">密码</div>
                     </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label"><i class="layui-icon layui-icon-vercode"></i></label>
-                        <div class="layui-input-block">
-                            <input th:field="*{captcha}" type="text" id="captcha" name="captcha" lay-verify="captcha" placeholder="验证码"
-                                   autocomplete="off" class="layui-input" lay-verType="tips">
-
-                            <img id="captcha-img" th:src="@{/kaptcha}" alt="验证码" onclick="changeCode()">
-                        </div>
+                </div>
+                <div class="login-center clearfix">
+                    <div class="login-center-img"><img th:src="@{/themes/mojitoming/images/icons/captcha.png}"></div>
+                    <div class="login-center-input">
+                        <input type="text" name="" value="" placeholder="请输入验证码" onfocus="this.placeholder=&#39;&#39;"
+                               onblur="this.placeholder=&#39;请输入验证码&#39;" th:field="*{captcha}" id="captcha" autocomplete="off">
+                        <img id="captcha-img" th:src="@{/kaptcha}" alt="验证码" onclick="changeCode()">
+                        <div class="login-center-input-text">验证码</div>
                     </div>
-                    <div class="layui-form-item">
-                        <div class="layui-input-block">
-                            <section>
-                                <input type="hidden" name="execution" th:value="${flowExecutionKey}"/>
-                                <input type="hidden" name="_eventId" value="submit"/>
-                                <input type="hidden" name="geolocation"/>
-                                <input id="login-btn" class="btn btn-submit btn-block layui-btn layui-btn-normal" name="submit" accesskey="l"
-                                       th:value="#{screen.welcome.button.login}" tabindex="6" type="submit" lay-submit=""/>
-                            </section>
-                        </div>
-                    </div>
-                </form>
+                </div>
+                <section class="login-button">
+                    <input type="hidden" name="execution" th:value="${flowExecutionKey}"/>
+                    <input type="hidden" name="_eventId" value="submit"/>
+                    <input type="hidden" name="geolocation"/>
+                    <input id="login-btn" name="submit" accesskey="l" th:value="#{screen.welcome.button.login}" tabindex="6" type="submit"/>
+                </section>
             </div>
-        </fieldset>
+        </form>
     </div>
+
 </body>
 </html>
