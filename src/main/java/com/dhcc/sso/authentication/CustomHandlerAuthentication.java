@@ -1,12 +1,10 @@
 package com.dhcc.sso.authentication;
 
 import com.alibaba.fastjson.JSONObject;
-import com.dhcc.sso.entity.CustomCredential;
-import com.dhcc.sso.entity.Module;
-import com.dhcc.sso.entity.Role;
-import com.dhcc.sso.entity.User;
+import com.dhcc.sso.entity.*;
 import com.dhcc.sso.exception.*;
 import com.dhcc.sso.utils.SecurityUtil;
+import com.dhcc.sso.utils.StringUtils;
 import org.apache.commons.collections.map.HashedMap;
 import org.apereo.cas.authentication.AuthenticationHandlerExecutionResult;
 import org.apereo.cas.authentication.Credential;
@@ -22,6 +20,10 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -129,12 +131,28 @@ public class CustomHandlerAuthentication extends AbstractPreAndPostProcessingAut
             throw new CheckRoleStatusException();
         }
 
-        // 获取权限 - system, page, data, function
-        String[] priviTypes = {"SYSTEM", "PAGE", "DATA", "FUNCTION"};
+        // 获取权限 - system, page, function
+        String[] priviTypes = {"SYSTEM", "PAGE", "FUNCTION"};
         sql = "select * from t_module m where m.status = '1' and exists (select 1 from T_ROLE_PRIVILEGE rp where m.module_id = rp.privi_id and rp.role_id = ? and rp.PRIVI_TYPE_CODE = ?) order by m.seq_no";
         List<Module> moduleList;
         HashedMap privilegeMap = new HashedMap();
         String roleId = role.getRoleId();
+        String moduleAction;
+        boolean hasAccessRight = false;
+        // 获取 service 后面的 url
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String serviceStr = request.getQueryString();
+        String clientUrlStr = null;
+        if (!StringUtils.isNullOrEmpty(serviceStr) && serviceStr.contains("service=")) {
+            try {
+                clientUrlStr = URLDecoder.decode(serviceStr.substring(serviceStr.indexOf("service=")), StandardCharsets.UTF_8.name());
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        } else {
+            clientUrlStr = "";
+            hasAccessRight = true;
+        }
         for (String priviType : priviTypes) {
             try {
                 moduleList = jdbcTemplate.query(sql, new Object[]{roleId, priviType}, new BeanPropertyRowMapper<>(Module.class));
@@ -143,7 +161,38 @@ public class CustomHandlerAuthentication extends AbstractPreAndPostProcessingAut
             }
 
             privilegeMap.put(priviType, moduleList);
+
+            if ("SYSTEM".equals(priviType)) {
+                if (moduleList.size() == 0) {
+                    throw new CheckSystemRightException();
+                }
+                for (Module module : moduleList) {
+                    moduleAction = module.getModuleAction();
+
+                    if (!StringUtils.isNullOrEmpty(clientUrlStr) && clientUrlStr.contains(moduleAction)) {
+                        hasAccessRight = true;
+                    }
+                }
+                if (!hasAccessRight) {
+                    throw new CheckSystemRightException();
+                }
+            }
         }
+
+        // data
+        sql = "select o.org_code, o.org_name, o.seq_no as org_seq_no, t.org_type_code, t.org_type_name, t.seq_no as org_type_seq_no " +
+                "  from t_dict_org o, t_dict_org_type t, t_dict_org_type_sub s " +
+                " where o.org_code = s.org_code " +
+                "   and t.org_type_code = s.org_type_code " +
+                "   and exists( " +
+                "       select 1 from t_role_privilege rp " +
+                "        where o.org_code = rp.privi_id " +
+                "          and rp.role_id = ? " +
+                "          and rp.privi_type_code = 'DATA' " +
+                "       ) " +
+                " order by o.seq_no ";
+        List<OrgVo> orgVoList = jdbcTemplate.query(sql, new Object[]{roleId}, new BeanPropertyRowMapper<>(OrgVo.class));
+        privilegeMap.put("DATA", orgVoList);
 
         final List<MessageDescriptor> list = new ArrayList<>();
 
@@ -153,10 +202,6 @@ public class CustomHandlerAuthentication extends AbstractPreAndPostProcessingAut
         String userJsonStr = JSONObject.toJSONString(user);
         String roleJsonStr = JSONObject.toJSONString(role);
         String privilegeMapJsonStr = JSONObject.toJSONString(privilegeMap);
-
-        JSONObject userJson = (JSONObject) JSONObject.toJSON(user);
-        JSONObject roleJson = (JSONObject) JSONObject.toJSON(role);
-        JSONObject privilegeMapJson = (JSONObject) JSONObject.toJSON(privilegeMap);
 
         returnInfo.put("user", userJsonStr);
         returnInfo.put("role", roleJsonStr);

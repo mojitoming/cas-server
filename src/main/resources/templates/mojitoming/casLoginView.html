@@ -12,47 +12,50 @@
 </head>
 <body>
     <div id="particles-js">
-        <form method="post" th:object="${credential}">
+        <form method="post" th:object="${credential}" class="layui-form">
             <div class="login">
                 <div class="login-top">
                     登录（LOGIN）
                 </div>
                 <!-- 错误信息 -->
                 <div th:if="${#fields.hasErrors('*')}">
-                    <div id="error-info" class="layui-form-item">
+                    <div id="error-info">
                         <span th:each="err : ${#fields.errors('*')}" th:utext="${err}"/>
                     </div>
                 </div>
                 <div class="login-center clearfix">
                     <div class="login-center-img"><img th:src="@{/themes/mojitoming/images/icons/name.png}"></div>
                     <div class="login-center-input">
-                        <input type="text" name="" value="" placeholder="请输入用户名" onfocus="this.placeholder=&#39;&#39;"
-                               onblur="this.placeholder=&#39;请输入用户名&#39;" th:field="*{username}" id="username">
+                        <input type="text" name="username" th:field="*{username}" id="username"
+                               lay-verType="tips" required lay-verify="username" placeholder="请输入用户名"
+                               onfocus="this.placeholder=&#39;&#39;" onblur="this.placeholder=&#39;请输入用户名&#39;">
                         <div class="login-center-input-text">用户名</div>
                     </div>
                 </div>
                 <div class="login-center clearfix">
                     <div class="login-center-img"><img th:src="@{/themes/mojitoming/images/icons/password.png}"></div>
                     <div class="login-center-input">
-                        <input type="password" name="" value="" placeholder="请输入密码" onfocus="this.placeholder=&#39;&#39;"
-                               onblur="this.placeholder=&#39;请输入密码&#39;" th:field="*{password}" id="password">
+                        <input type="password" name="password" th:field="*{password}" id="password"
+                               lay-verType="tips" required lay-verify="password" placeholder="请输入密码"
+                               onfocus="this.placeholder=&#39;&#39;" onblur="this.placeholder=&#39;请输入密码&#39;">
                         <div class="login-center-input-text">密码</div>
                     </div>
                 </div>
                 <div class="login-center clearfix">
                     <div class="login-center-img"><img th:src="@{/themes/mojitoming/images/icons/captcha.png}"></div>
                     <div class="login-center-input">
-                        <input type="text" name="" value="" placeholder="请输入验证码" onfocus="this.placeholder=&#39;&#39;"
-                               onblur="this.placeholder=&#39;请输入验证码&#39;" th:field="*{captcha}" id="captcha" autocomplete="off">
+                        <input type="text" name="captcha" th:field="*{captcha}" id="captcha"
+                               lay-verType="tips" required lay-verify="captcha" placeholder="请输入验证码"
+                               onfocus="this.placeholder=&#39;&#39;" onblur="this.placeholder=&#39;请输入验证码&#39;" autocomplete="off">
                         <img id="captcha-img" th:src="@{/kaptcha}" alt="验证码" onclick="changeCode()">
                         <div class="login-center-input-text">验证码</div>
                     </div>
                 </div>
-                <section class="login-button">
+                <section>
                     <input type="hidden" name="execution" th:value="${flowExecutionKey}"/>
                     <input type="hidden" name="_eventId" value="submit"/>
                     <input type="hidden" name="geolocation"/>
-                    <input id="login-btn" name="submit" accesskey="l" th:value="#{screen.welcome.button.login}" tabindex="6" type="submit"/>
+                    <input class="login-button" name="submit" accesskey="l" th:value="#{screen.welcome.button.login}" tabindex="6" type="submit" lay-submit=""/>
                 </section>
             </div>
         </form>
