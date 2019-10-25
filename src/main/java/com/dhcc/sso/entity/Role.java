@@ -7,7 +7,7 @@ import java.util.Objects;
 @Table(name = "T_ROLE", schema = "URMS")
 public class Role {
     private String roleId;
-    private String roleCode;
+    private String roleName;
     private String roleDesc;
     private Long priority;
     private String status;
@@ -23,13 +23,13 @@ public class Role {
     }
 
     @Basic
-    @Column(name = "ROLE_CODE", nullable = false, length = 32)
-    public String getRoleCode() {
-        return roleCode;
+    @Column(name = "ROLE_NAME", nullable = false, length = 32)
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setRoleCode(String roleCode) {
-        this.roleCode = roleCode;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
     @Basic
@@ -68,7 +68,7 @@ public class Role {
         if (o == null || getClass() != o.getClass()) return false;
         Role role = (Role) o;
         return Objects.equals(roleId, role.roleId) &&
-                Objects.equals(roleCode, role.roleCode) &&
+                Objects.equals(roleName, role.roleName) &&
                 Objects.equals(roleDesc, role.roleDesc) &&
                 Objects.equals(priority, role.priority) &&
                 Objects.equals(status, role.status);
@@ -76,6 +76,6 @@ public class Role {
 
     @Override
     public int hashCode() {
-        return Objects.hash(roleId, roleCode, roleDesc, priority, status);
+        return Objects.hash(roleId, roleName, roleDesc, priority, status);
     }
 }

@@ -96,6 +96,7 @@ public class CustomHandlerAuthentication extends AbstractPreAndPostProcessingAut
         }
         // 清空密码
         user.setPassword("");
+        user.setSalt("");
 
         // 判断用户是否在可用时间范围
         LocalDateTime now = LocalDateTime.now();
