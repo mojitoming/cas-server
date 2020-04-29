@@ -190,6 +190,12 @@
                 <!--
                 ...Additional dependencies may be placed here...
                 -->
+                <!-- 提示缺少依赖。。我现加的   还是jar形式，本地导入吧 -->
+<!--                <dependency>-->
+<!--                    <groupId>net.shibboleth.tool</groupId>-->
+<!--                    <artifactId>xmlsectool</artifactId>-->
+<!--                    <version>2.0.0</version>-->
+<!--                </dependency>-->
             </dependencies>
         </profile>
 

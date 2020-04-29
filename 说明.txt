@@ -1,0 +1,3 @@
+1.maven没问题（参考extr/说明.txt）
+2.(tomcat8080端口运行)运行启动  http://localhost:8080/cas-server/login
+admin   123

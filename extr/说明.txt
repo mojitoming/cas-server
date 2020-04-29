@@ -1,0 +1,7 @@
+我的pom.xml一个dependency里，俩plugin里爆红，然后采取maven仓库搜，下载jar/plugin到本地，在通过maven命令导入
+
+mvn install:install-file -Dfile=./extr/xmlsectool-2.0.0.jar -DgroupId=net.shibboleth.tool -DartifactId=xmlsectool -Dversion=2.0.0 -Dpackaging=jar
+mvn install:install-file -Dfile=./extr/echo-maven-plugin-0.3.0.jar -DgroupId=com.soebes.maven.plugins -DartifactId=echo-maven-plugin -Dversion=0.3.0 -Dpackaging=jar
+mvn install:install-file -Dfile=./extr/pgpverify-maven-plugin-1.1.0.jar -DgroupId=com.github.s4u.plugins -DartifactId=pgpverify-maven-plugin -Dversion=1.1.0 -Dpackaging=jar
+
+有些确定有的，可以去本地删了，再重新改改pom.xml来import下载来
