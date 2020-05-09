@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@Table(name = "URMS_USER")
+@Table(name = "T_USER", schema = "URMS")
 public class User {
     private String userId;
     private String username;

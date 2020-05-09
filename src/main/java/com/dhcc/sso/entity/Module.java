@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "URMS_MODULE")
+@Table(name = "T_MODULE", schema = "URMS")
 public class Module {
     private String moduleId;
     private String moduleName;
