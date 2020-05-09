@@ -133,11 +133,13 @@
                     <artifactId>cas-server-support-jdbc</artifactId>
                     <version>${cas.version}</version>
                 </dependency>
+                <!-- https://mvnrepository.com/artifact/com.oracle/ojdbc6 -->
                 <dependency>
                     <groupId>com.oracle</groupId>
                     <artifactId>ojdbc6</artifactId>
                     <version>${ojdbc.version}</version>
                 </dependency>
+
                 <!-- Custom Authentication -->
                 <dependency>
                     <groupId>org.apereo.cas</groupId>
@@ -190,6 +192,28 @@
                 <!--
                 ...Additional dependencies may be placed here...
                 -->
+                <!-- 以下依赖解决 JDK 高版本缺少 jar 问题 ==== START ==== -->
+                <dependency>
+                    <groupId>javax.xml.bind</groupId>
+                    <artifactId>jaxb-api</artifactId>
+                    <version>2.3.0</version>
+                </dependency>
+                <dependency>
+                    <groupId>com.sun.xml.bind</groupId>
+                    <artifactId>jaxb-impl</artifactId>
+                    <version>2.3.0</version>
+                </dependency>
+                <dependency>
+                    <groupId>com.sun.xml.bind</groupId>
+                    <artifactId>jaxb-core</artifactId>
+                    <version>2.3.0</version>
+                </dependency>
+                <dependency>
+                    <groupId>javax.activation</groupId>
+                    <artifactId>activation</artifactId>
+                    <version>1.1.1</version>
+                </dependency>
+                <!-- 以下依赖解决 JDK 高版本缺少 jar 问题 ==== END ==== -->
             </dependencies>
         </profile>
 

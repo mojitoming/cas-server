@@ -12,3 +12,4 @@ bin/
 *.iml
 *.log
 overlays/
+.java-version
