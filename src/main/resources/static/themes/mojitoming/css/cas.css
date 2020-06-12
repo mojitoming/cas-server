@@ -234,3 +234,7 @@ abbr, acronym {
     text-align: center;
     margin-top: -33px;
 }
+
+.login-button {
+    border-width: 0;
+}
