@@ -65,7 +65,7 @@ public class CustomHandlerAuthentication extends AbstractPreAndPostProcessingAut
                 throw new CheckCaptchaException();
             }
         }
-        String sql = "SELECT * FROM URMS.T_USER WHERE USERNAME = ?";
+        String sql = "SELECT * FROM T_USER WHERE USERNAME = ?";
 
         User user;
         try {
@@ -116,7 +116,7 @@ public class CustomHandlerAuthentication extends AbstractPreAndPostProcessingAut
         }
 
         // 判断角色
-        sql = "SELECT * FROM URMS.T_ROLE R WHERE EXISTS(SELECT 1 FROM URMS.T_USER_ROLE UR WHERE UR.ROLE_ID = R.ROLE_ID AND UR.IS_DEFAULT='1' AND UR.USER_ID = ?)";
+        sql = "SELECT * FROM T_ROLE R WHERE EXISTS(SELECT 1 FROM T_USER_ROLE UR WHERE UR.ROLE_ID = R.ROLE_ID AND UR.IS_DEFAULT='1' AND UR.USER_ID = ?)";
         Role role;
         try {
             String userId = user.getUserId();
@@ -134,7 +134,7 @@ public class CustomHandlerAuthentication extends AbstractPreAndPostProcessingAut
 
         // 获取权限 - system, page, function
         String[] priviTypes = {"SYSTEM", "PAGE", "FUNCTION"};
-        sql = "SELECT * FROM URMS.T_MODULE M WHERE M.STATUS = '1' AND EXISTS (SELECT 1 FROM URMS.T_ROLE_PRIVILEGE RP WHERE M.MODULE_ID = RP.PRIVI_ID AND RP.ROLE_ID = ? AND RP.PRIVI_TYPE_CODE = ?) ORDER BY M.SEQ_NO";
+        sql = "SELECT * FROM T_MODULE M WHERE M.STATUS = '1' AND EXISTS (SELECT 1 FROM T_ROLE_PRIVILEGE RP WHERE M.MODULE_ID = RP.PRIVI_ID AND RP.ROLE_ID = ? AND RP.PRIVI_TYPE_CODE = ?) ORDER BY M.SEQ_NO";
         List<Module> moduleList;
         HashedMap privilegeMap = new HashedMap();
         String roleId = role.getRoleId();
@@ -186,7 +186,7 @@ public class CustomHandlerAuthentication extends AbstractPreAndPostProcessingAut
               " WHERE O.ORG_CODE = S.ORG_CODE " +
               "   AND T.ORG_TYPE_CODE = S.ORG_TYPE_CODE " +
               "   AND EXISTS( " +
-              "       SELECT 1 FROM URMS.T_ROLE_PRIVILEGE RP " +
+              "       SELECT 1 FROM T_ROLE_PRIVILEGE RP " +
               "        WHERE O.ORG_CODE = RP.PRIVI_ID " +
               "          AND RP.ROLE_ID = ? " +
               "          AND RP.PRIVI_TYPE_CODE = 'DATA' " +
