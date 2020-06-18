@@ -81,7 +81,7 @@ public class CustomHandlerAuthentication extends AbstractPreAndPostProcessingAut
 
         // 判断用户是否可用
         String status = user.getStatus();
-        if (!"1".equalsIgnoreCase(status)) {
+        if (!"ACTIVE".equalsIgnoreCase(status)) {
             throw new CheckUserStatusException();
         }
 
@@ -119,7 +119,7 @@ public class CustomHandlerAuthentication extends AbstractPreAndPostProcessingAut
         sql = "SELECT * FROM T_ROLE R WHERE EXISTS(SELECT 1 FROM T_USER_ROLE UR WHERE UR.ROLE_ID = R.ROLE_ID AND UR.IS_DEFAULT='1' AND UR.USER_ID = ?)";
         Role role;
         try {
-            String userId = user.getUserId();
+            long userId = user.getUserId();
             role = jdbcTemplate.queryForObject(sql, new Object[]{userId}, new BeanPropertyRowMapper<>(Role.class));
         } catch (EmptyResultDataAccessException e) {
             role = null;
@@ -128,16 +128,16 @@ public class CustomHandlerAuthentication extends AbstractPreAndPostProcessingAut
             throw new CheckRoleInfoException();
         }
 
-        if (!"1".equals(role.getStatus())) {
+        if (!"ACTIVE".equals(role.getStatus())) {
             throw new CheckRoleStatusException();
         }
 
         // 获取权限 - system, page, function
         String[] priviTypes = {"SYSTEM", "PAGE", "FUNCTION"};
-        sql = "SELECT * FROM T_MODULE M WHERE M.STATUS = '1' AND EXISTS (SELECT 1 FROM T_ROLE_PRIVILEGE RP WHERE M.MODULE_ID = RP.PRIVI_ID AND RP.ROLE_ID = ? AND RP.PRIVI_TYPE_CODE = ?) ORDER BY M.SEQ_NO";
+        sql = "SELECT * FROM T_MODULE M WHERE M.STATUS = 'ACTIVE' AND EXISTS (SELECT 1 FROM T_ROLE_PRIVILEGE RP WHERE M.MODULE_ID = RP.PRIVI_ID AND RP.ROLE_ID = ? AND RP.PRIVI_TYPE_CODE = ?) ORDER BY M.ODN";
         List<Module> moduleList;
         HashedMap privilegeMap = new HashedMap();
-        String roleId = role.getRoleId();
+        long roleId = role.getRoleId();
         String moduleAction;
         boolean hasAccessRight = false;
         // 获取 service 后面的 url
