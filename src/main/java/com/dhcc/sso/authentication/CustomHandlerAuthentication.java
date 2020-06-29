@@ -133,8 +133,9 @@ public class CustomHandlerAuthentication extends AbstractPreAndPostProcessingAut
         }
 
         // 获取权限 - system, page, function
-        String[] priviTypes = {"SYSTEM", "PAGE", "FUNCTION"};
-        sql = "SELECT * FROM T_MODULE M WHERE M.STATUS = 'ACTIVE' AND EXISTS (SELECT 1 FROM T_ROLE_PRIVILEGE RP WHERE M.MODULE_ID = RP.PRIVI_ID AND RP.ROLE_ID = ? AND RP.PRIVI_TYPE_CODE = ?) ORDER BY M.ODN";
+        String[] moduleTypeArr = {"SYSTEM", "PAGE", "FUNCTION"};
+        sql = "SELECT * FROM T_MODULE M WHERE M.STATUS = 'ACTIVE' AND M.MODULE_TYPE = ? " +
+                  "AND EXISTS (SELECT 1 FROM T_ROLE_PRIVILEGE RP WHERE M.MODULE_ID = RP.PRIVI_ID AND RP.ROLE_ID = ? AND RP.PRIVI_TYPE_CODE = 'MODULE') ORDER BY M.ODN";
         List<Module> moduleList;
         HashedMap privilegeMap = new HashedMap();
         long roleId = role.getRoleId();
@@ -154,16 +155,16 @@ public class CustomHandlerAuthentication extends AbstractPreAndPostProcessingAut
             clientUrlStr = "";
             hasAccessRight = true;
         }
-        for (String priviType : priviTypes) {
+        for (String moduleType : moduleTypeArr) {
             try {
-                moduleList = jdbcTemplate.query(sql, new Object[]{roleId, priviType}, new BeanPropertyRowMapper<>(Module.class));
+                moduleList = jdbcTemplate.query(sql, new Object[]{moduleType, roleId}, new BeanPropertyRowMapper<>(Module.class));
             } catch (EmptyResultDataAccessException e) {
                 moduleList = new ArrayList<>();
             }
 
-            privilegeMap.put(priviType, moduleList);
+            privilegeMap.put(moduleType, moduleList);
 
-            if ("SYSTEM".equals(priviType)) {
+            if ("SYSTEM".equals(moduleType)) {
                 if (moduleList.size() == 0) {
                     throw new CheckSystemRightException();
                 }
@@ -182,16 +183,16 @@ public class CustomHandlerAuthentication extends AbstractPreAndPostProcessingAut
 
         // data
         sql = "SELECT O.ORG_CODE, O.ORG_NAME, O.SEQ_NO AS ORG_SEQ_NO, T.ORG_TYPE_CODE, T.ORG_TYPE_NAME, T.SEQ_NO AS ORG_TYPE_SEQ_NO " +
-              "  FROM T_DICT_ORG O, T_DICT_ORG_TYPE T, T_DICT_ORG_TYPE_SUB S " +
-              " WHERE O.ORG_CODE = S.ORG_CODE " +
-              "   AND T.ORG_TYPE_CODE = S.ORG_TYPE_CODE " +
-              "   AND EXISTS( " +
-              "       SELECT 1 FROM T_ROLE_PRIVILEGE RP " +
-              "        WHERE O.ORG_CODE = RP.PRIVI_ID " +
-              "          AND RP.ROLE_ID = ? " +
-              "          AND RP.PRIVI_TYPE_CODE = 'DATA' " +
-              "       ) " +
-              " ORDER BY O.SEQ_NO ";
+                  "  FROM T_DICT_ORG O, T_DICT_ORG_TYPE T, T_DICT_ORG_TYPE_SUB S " +
+                  " WHERE O.ORG_CODE = S.ORG_CODE " +
+                  "   AND T.ORG_TYPE_CODE = S.ORG_TYPE_CODE " +
+                  "   AND EXISTS( " +
+                  "       SELECT 1 FROM T_ROLE_PRIVILEGE RP " +
+                  "        WHERE O.ORG_CODE = RP.PRIVI_ID " +
+                  "          AND RP.ROLE_ID = ? " +
+                  "          AND RP.PRIVI_TYPE_CODE = 'DATA' " +
+                  "       ) " +
+                  " ORDER BY O.SEQ_NO ";
         List<OrgVo> orgVoList = jdbcTemplate.query(sql, new Object[]{roleId}, new BeanPropertyRowMapper<>(OrgVo.class));
         privilegeMap.put("DATA", orgVoList);
 
