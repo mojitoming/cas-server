@@ -3,7 +3,7 @@ package com.dhcc.sso.authentication;
 import com.alibaba.fastjson.JSONObject;
 import com.dhcc.sso.entity.*;
 import com.dhcc.sso.exception.*;
-import com.dhcc.sso.utils.SecurityUtil;
+import com.dhcc.sso.utils.SecurityUtils;
 import com.dhcc.sso.utils.StringUtils;
 import org.apache.commons.collections.map.HashedMap;
 import org.apereo.cas.authentication.AuthenticationHandlerExecutionResult;
@@ -86,10 +86,9 @@ public class CustomHandlerAuthentication extends AbstractPreAndPostProcessingAut
         }
 
         // 判断密码
-        // TODO 默认密码修改
         String salt = user.getSalt();
         String pwdRight = user.getPassword();
-        String pwdCheck = SecurityUtil.md5(salt + password);
+        String pwdCheck = SecurityUtils.md5(salt + password);
 
         if (!pwdRight.equals(pwdCheck)) {
             throw new CheckUserInfoException();
