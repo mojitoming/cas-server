@@ -2,15 +2,15 @@ package com.dhcc.sso.entity;
 
 import java.io.Serializable;
 
-public class OrgVo implements Serializable {
+public class OrgVO implements Serializable {
     private static final Long serialVersionUID = 1L;
 
     private String orgCode;
     private String orgName;
-    private String orgSeqNo;
+    private String orgOdn;
     private String orgTypeCode;
     private String orgTypeName;
-    private String orgTypeSeqNo;
+    private String orgTypeOdn;
 
     public String getOrgCode() {
         return orgCode;
@@ -28,12 +28,12 @@ public class OrgVo implements Serializable {
         this.orgName = orgName;
     }
 
-    public String getOrgSeqNo() {
-        return orgSeqNo;
+    public String getOrgOdn() {
+        return orgOdn;
     }
 
-    public void setOrgSeqNo(String orgSeqNo) {
-        this.orgSeqNo = orgSeqNo;
+    public void setOrgOdn(String orgOdn) {
+        this.orgOdn = orgOdn;
     }
 
     public String getOrgTypeCode() {
@@ -52,11 +52,11 @@ public class OrgVo implements Serializable {
         this.orgTypeName = orgTypeName;
     }
 
-    public String getOrgTypeSeqNo() {
-        return orgTypeSeqNo;
+    public String getOrgTypeOdn() {
+        return orgTypeOdn;
     }
 
-    public void setOrgTypeSeqNo(String orgTypeSeqNo) {
-        this.orgTypeSeqNo = orgTypeSeqNo;
+    public void setOrgTypeOdn(String orgTypeOdn) {
+        this.orgTypeOdn = orgTypeOdn;
     }
 }

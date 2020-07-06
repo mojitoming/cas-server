@@ -13,6 +13,7 @@ import org.apereo.cas.authentication.PreventedException;
 import org.apereo.cas.authentication.handler.support.AbstractPreAndPostProcessingAuthenticationHandler;
 import org.apereo.cas.authentication.principal.PrincipalFactory;
 import org.apereo.cas.services.ServicesManager;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -36,6 +37,9 @@ import java.util.List;
 public class CustomHandlerAuthentication extends AbstractPreAndPostProcessingAuthenticationHandler {
     @Resource
     private JdbcTemplate jdbcTemplate;
+
+    @Value("${cas.logout.redirectParameter:service}")
+    private String redirectParameter;
 
     public CustomHandlerAuthentication(String name, ServicesManager servicesManager, PrincipalFactory principalFactory, Integer order) {
         super(name, servicesManager, principalFactory, order);
@@ -144,7 +148,7 @@ public class CustomHandlerAuthentication extends AbstractPreAndPostProcessingAut
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String serviceStr = request.getQueryString();
         String clientUrlStr = null;
-        if (!StringUtils.isNullOrEmpty(serviceStr) && serviceStr.contains("service=")) {
+        if (!StringUtils.isNullOrEmpty(serviceStr) && serviceStr.contains(redirectParameter + "=")) {
             try {
                 clientUrlStr = URLDecoder.decode(serviceStr.substring(serviceStr.indexOf("service=")), StandardCharsets.UTF_8.name());
             } catch (UnsupportedEncodingException e) {
@@ -181,7 +185,7 @@ public class CustomHandlerAuthentication extends AbstractPreAndPostProcessingAut
         }
 
         // data
-        sql = "SELECT O.ORG_CODE, O.ORG_NAME, O.SEQ_NO AS ORG_SEQ_NO, T.ORG_TYPE_CODE, T.ORG_TYPE_NAME, T.SEQ_NO AS ORG_TYPE_SEQ_NO " +
+        sql = "SELECT O.ORG_CODE, O.ORG_NAME, O.ODN AS ORG_ODN, T.ORG_TYPE_CODE, T.ORG_TYPE_NAME, T.ODN AS ORG_TYPE_ODN " +
                   "  FROM T_DICT_ORG O, T_DICT_ORG_TYPE T, T_DICT_ORG_TYPE_SUB S " +
                   " WHERE O.ORG_CODE = S.ORG_CODE " +
                   "   AND T.ORG_TYPE_CODE = S.ORG_TYPE_CODE " +
@@ -191,9 +195,9 @@ public class CustomHandlerAuthentication extends AbstractPreAndPostProcessingAut
                   "          AND RP.ROLE_ID = ? " +
                   "          AND RP.PRIVI_TYPE_CODE = 'DATA' " +
                   "       ) " +
-                  " ORDER BY O.SEQ_NO ";
-        List<OrgVo> orgVoList = jdbcTemplate.query(sql, new Object[]{roleId}, new BeanPropertyRowMapper<>(OrgVo.class));
-        privilegeMap.put("DATA", orgVoList);
+                  " ORDER BY O.ODN ";
+        List<OrgVO> orgVOList = jdbcTemplate.query(sql, new Object[]{roleId}, new BeanPropertyRowMapper<>(OrgVO.class));
+        privilegeMap.put("DATA", orgVOList);
 
         final List<MessageDescriptor> list = new ArrayList<>();
 
