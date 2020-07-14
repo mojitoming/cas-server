@@ -189,6 +189,7 @@ public class CustomHandlerAuthentication extends AbstractPreAndPostProcessingAut
                   "  FROM T_DICT_ORG O, T_DICT_ORG_TYPE T, T_DICT_ORG_TYPE_SUB S " +
                   " WHERE O.ORG_CODE = S.ORG_CODE " +
                   "   AND T.ORG_TYPE_CODE = S.ORG_TYPE_CODE " +
+                  "   AND T.ORG_TYPE_CODE <> 'DHCC' " +
                   "   AND EXISTS( " +
                   "       SELECT 1 FROM T_ROLE_PRIVILEGE RP " +
                   "        WHERE O.ORG_CODE = RP.PRIVI_ID " +
