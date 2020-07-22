@@ -5,12 +5,13 @@ import java.io.Serializable;
 public class OrgVO implements Serializable {
     private static final Long serialVersionUID = 1L;
 
-    private String orgCode;
-    private String orgName;
-    private String orgOdn;
-    private String orgTypeCode;
-    private String orgTypeName;
-    private String orgTypeOdn;
+    private String orgCode; // 机构代码
+    private String orgName; // 机构名称
+    private String orgOdn; // 机构顺序
+    private Integer cisLevel; // 医保结算等级
+    private String orgTypeCode; // 机构类型代码
+    private String orgTypeName; // 机构类型名称
+    private String orgTypeOdn; // 机构类型顺序
 
     public String getOrgCode() {
         return orgCode;
@@ -34,6 +35,14 @@ public class OrgVO implements Serializable {
 
     public void setOrgOdn(String orgOdn) {
         this.orgOdn = orgOdn;
+    }
+
+    public Integer getCisLevel() {
+        return cisLevel;
+    }
+
+    public void setCisLevel(Integer cisLevel) {
+        this.cisLevel = cisLevel;
     }
 
     public String getOrgTypeCode() {

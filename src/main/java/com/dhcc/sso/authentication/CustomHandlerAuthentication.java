@@ -185,7 +185,7 @@ public class CustomHandlerAuthentication extends AbstractPreAndPostProcessingAut
         }
 
         // data
-        sql = "SELECT O.ORG_CODE, O.ORG_NAME, O.ODN AS ORG_ODN, T.ORG_TYPE_CODE, T.ORG_TYPE_NAME, T.ODN AS ORG_TYPE_ODN " +
+        sql = "SELECT O.ORG_CODE, O.ORG_NAME, O.ODN AS ORG_ODN, O.CIS_LEVEL, T.ORG_TYPE_CODE, T.ORG_TYPE_NAME, T.ODN AS ORG_TYPE_ODN " +
                   "  FROM T_DICT_ORG O, T_DICT_ORG_TYPE T, T_DICT_ORG_TYPE_SUB S " +
                   " WHERE O.ORG_CODE = S.ORG_CODE " +
                   "   AND T.ORG_TYPE_CODE = S.ORG_TYPE_CODE " +
